@@ -13,6 +13,7 @@ Shader "Shaders/Watercolor" {
 		Pass
 		{
 			CGPROGRAM
+
 			ENDCG
 		}
 		
