@@ -13,41 +13,38 @@ Shader "Shaders/Watercolor" {
 		Pass
 		{
 			CGPROGRAM
-
             #pragma vertex vMain
             #pragma fragment fMain
+			#include "UnityCG.cginc"
 
             uniform float4 _Color;
-
+			sampler2D _MainTex;
             uniform float4 _LightColor0;
 
-            struct vertexInput
+            struct appdata
             {
                 float4 vertex : POSITION;
-                float3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
             };
 
-            struct vertexOutput
+            struct v2f
             {
-                float4 position : POSITION;
-                float4 color : COLOR;
+				float4 vertex : SV_POSITION;
+				float2 uv : TEXCOORD0;
             };
 
-            vertexOutput vMain( vertexInput input )
-            {
-                vertexOutput output;
+			v2f vMain(appdata v)
+			{
+				v2f o;
+				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.uv = v.uv;
+				return o;
+			}
 
-                output.color = float4( 0.5, 0.5, 0.5, 1.0 );
-                output.position = mul( UNITY_MATRIX_MVP, input.vertex );
-
-                retrun output;
-            }
-
-            float4 fMain( vertexOutput input ) : COLOR
-            {
-                return input.color;
-            }
-
+			float4 fMain(v2f i) : SV_Target
+			{
+				return float4(1, 1, 1, 1);
+			}
 			ENDCG
 		}
 		
