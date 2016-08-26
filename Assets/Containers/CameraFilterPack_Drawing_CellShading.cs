@@ -1,12 +1,12 @@
-﻿////////////////////////////////////////////////////////////////////////////////////
-//  CameraFilterPack v2.0 - by VETASOFT 2015 //////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
+﻿/*
+	Created by Alexander Dadukin & Vladimir Polyakov
+	26/08/2016
+*/
 
 using UnityEngine;
 using System.Collections;
 
 [ExecuteInEditMode]
-[AddComponentMenu ("Camera Filter Pack/Drawing/CellShading")]
 public class CameraFilterPack_Drawing_CellShading : MonoBehaviour {
 	#region Variables
 	public Shader SCShader;
