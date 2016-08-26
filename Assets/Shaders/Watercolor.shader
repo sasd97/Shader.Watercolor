@@ -13,6 +13,7 @@ Shader "Shaders/Watercolor" {
 		Pass
 		{
 			CGPROGRAM
+<<<<<<< HEAD
             #pragma vertex vMain
             #pragma fragment fMain
 
@@ -46,6 +47,8 @@ Shader "Shaders/Watercolor" {
             {
                 return input.color;
             }
+=======
+>>>>>>> 50bff8f9ee7e48a2783bd80888a197cd0c95bb4a
 
 			ENDCG
 		}
