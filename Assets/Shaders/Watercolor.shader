@@ -6,7 +6,8 @@
 Shader "Shaders/Watercolor" {
 	Properties 
 	{
-        _Color("Color", Color) = (1.0, 1.0, 1.0, 1.0)
+		_MainTex("Base (RGB)", 2D) = "white" {}
+		_ScreenResolution ("_ScreenResolution", Vector) = (0., 0., 0., 0.)
 	}
 	SubShader 
 	{
@@ -15,35 +16,40 @@ Shader "Shaders/Watercolor" {
 			CGPROGRAM
             #pragma vertex vMain
             #pragma fragment fMain
+			#pragma target 3.0
+			#pragma glsl
 			#include "UnityCG.cginc"
 
-            uniform float4 _Color;
 			sampler2D _MainTex;
-            uniform float4 _LightColor0;
+			uniform float4 _ScreenResolution;
 
             struct appdata
             {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                float4 vertex   : POSITION;
+				float4 color    : COLOR;
+				float2 texcoord : TEXCOORD0;
             };
 
             struct v2f
             {
-				float4 vertex : SV_POSITION;
-				float2 uv : TEXCOORD0;
+				float4 vertex   : SV_POSITION;
+				fixed4 color    : COLOR;
+				float2 texcoord : TEXCOORD0;
             };
 
-			v2f vMain(appdata v)
+			v2f vMain(appdata IN)
 			{
-				v2f o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
-				o.uv = v.uv;
-				return o;
+				v2f OUT;
+				OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
+				OUT.texcoord = IN.texcoord;
+				OUT.color = IN.color;
+				return OUT;
 			}
 
-			float4 fMain(v2f i) : SV_Target
+			float4 fMain(v2f IN) : COLOR
 			{
-				return float4(1, 1, 1, 1);
+				float4 color = 0;
+				return color;
 			}
 			ENDCG
 		}

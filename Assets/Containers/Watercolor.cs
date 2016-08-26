@@ -66,10 +66,9 @@ namespace Assets.Containers
             }
 
             #if UNITY_EDITOR
-            if (Application.isPlaying!=true)
+            if (Application.isPlaying != true)
             {
                 ScShader = Shader.Find(ShaderName);
-
             }
             #endif
 
