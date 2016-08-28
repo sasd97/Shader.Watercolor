@@ -21,38 +21,49 @@ Shader "Shaders/Watercolor" {
 			#include "UnityCG.cginc"
 
 			sampler2D _MainTex;
-			uniform float4 _ScreenResolution;
+			uniform int radius = 2;
 
             struct appdata
             {
                 float4 vertex   : POSITION;
 				float4 color    : COLOR;
-				float2 texcoord : TEXCOORD0;
+				float2 uv : TEXCOORD0;
             };
 
             struct v2f
             {
 				float4 vertex   : SV_POSITION;
-				fixed4 color    : COLOR;
-				float2 texcoord : TEXCOORD0;
+				float4 color    : COLOR;
+				float2 uv : TEXCOORD0;
             };
 
 			v2f vMain(appdata IN)
 			{
 				v2f OUT;
 				OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
-				OUT.texcoord = IN.texcoord;
 				OUT.color = IN.color;
+				OUT.uv = IN.uv;
 				return OUT;
 			}
 
-			float4 fMain(v2f IN) : COLOR
+			float4 matrixInterpolation(sampler2D tex, float2 uv, int radius) {
+				float4 color = 0;
+
+				for (int a = -radius; a <= radius; a++) {
+					for (int b = -radius; b <= radius; b++) {
+
+					}
+				}
+
+				return color;
+			}
+
+			float4 fMain(v2f IN) : SV_Target
 			{
 				float4 color = 0;
 				return color;
 			}
 			ENDCG
 		}
-		
 	}
 }
