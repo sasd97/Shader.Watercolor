@@ -7,7 +7,6 @@ Shader "Shaders/Watercolor" {
 	Properties 
 	{
 		_MainTex("Base (RGB)", 2D) = "white" {}
-		_ScreenResolution ("_ScreenResolution", Vector) = (0., 0., 0., 0.)
 	}
 	SubShader 
 	{
@@ -61,7 +60,7 @@ Shader "Shaders/Watercolor" {
 				}
 
 				int obtainIntensivity(float4 color) {
-					return (((color.r + color.g + color.b) / 3.0) * 10.0);
+					return (int) (((color.r + color.g + color.b) / 3.0) * 10.0);
 				}
 
 				int mode() {

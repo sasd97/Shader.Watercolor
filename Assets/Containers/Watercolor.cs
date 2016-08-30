@@ -15,10 +15,16 @@ namespace Assets.Containers
         private const string ScreenResolutiuonVectorFlag = "_ScreenResolution";
         #endregion
 
+        #region Settings
+        [Range(0, 10)]
+        public int Iterations;
+        [Range(0, 4)]
+        public int DownRes;
+        #endregion
+
         #region Variables
         public Shader ScShader;
         private Material _scMaterial;
-        private readonly Vector2 _scScreenSize = new Vector2(Screen.width, Screen.height);
         #endregion
 
         #region Materials
@@ -45,8 +51,22 @@ namespace Assets.Containers
         {
             if (ScShader != null)
             {
-                Material.SetVector(ScreenResolutiuonVectorFlag, _scScreenSize);
-                Graphics.Blit(sourceTexture, destTexture, Material);
+                int width = sourceTexture.width >> DownRes;
+                int height = sourceTexture.height >> DownRes;
+
+                RenderTexture rt = RenderTexture.GetTemporary(width, height);
+                Graphics.Blit(sourceTexture, rt);
+
+                for (int i = 0; i < Iterations; i++)
+                {
+                    RenderTexture rt2 = RenderTexture.GetTemporary(width, height);
+                    Graphics.Blit(rt, rt2, Material);
+                    RenderTexture.ReleaseTemporary(rt);
+                    rt = rt2;
+                }
+
+                Graphics.Blit(rt, destTexture);
+                RenderTexture.ReleaseTemporary(rt);
             }
             else
             {
