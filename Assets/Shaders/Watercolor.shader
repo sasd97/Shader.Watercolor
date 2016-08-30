@@ -23,7 +23,7 @@ Shader "Shaders/Watercolor" {
 
 			const int RADIUS = 2;
 			const int DIMENSION = 9;
-			const float INTENSITY_COEF = 10.0;
+			const float INTENSITY_COEF = 25.0;
 
 			sampler2D _MainTex;
 			float4 _MainTex_TexelSize;
@@ -61,7 +61,7 @@ Shader "Shaders/Watercolor" {
 				}
 
 				int obtainIntensivity(float4 color) {
-					return (((color[0] + color[1] + color[2]) / 3.0) * INTENSITY_COEF);
+					return (((color.r + color.g + color.b) / 3.0) * 10.0);
 				}
 
 				int mode() {
@@ -69,10 +69,10 @@ Shader "Shaders/Watercolor" {
 				}
 
 				float4 watercolor(sampler2D tex, float2 uv, float4 size) {
-					int counter = 0;
 					float4 finalColor = 0;
 					color colors[9];
 
+					int counter = 0;
 					for (int a = -1; a <= 1; a++) {
 						for (int b = -1; b <= 1; b++) {
 							color color;
@@ -101,11 +101,15 @@ Shader "Shaders/Watercolor" {
 						}
 					}
 
-					for (int c = 0; c < RADIUS; c++) {
-						finalColor += colors[c].value;
+					counter = 0;
+					for (int c = 0; c < 9; c++) {
+						if (colors[c].intensity == max) {
+							finalColor += colors[c].value;
+							counter++;
+						}
 					}
-
-					return finalColor / 9;
+				
+					return finalColor / counter;
 				}
 
 				float4 fMain(v2f IN) : SV_Target
